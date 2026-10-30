@@ -283,7 +283,7 @@ def paras(items):
     return "\n".join(f"<p>{e(p)}</p>" for p in items)
 
 
-def layout(page, title, body, desc="", current=None, notice=True):
+def layout(page, title, body, desc="", current=None):
     R = lambda t: rel(page, t)
     nav_items = "\n".join(
         f'<li><a href="{R(href)}"{" aria-current=\"page\"" if href == current else ""}>{label}</a></li>'
@@ -292,11 +292,6 @@ def layout(page, title, body, desc="", current=None, notice=True):
     full_title = "Veteran Games and Conference" if title is None else f"{title} | Veteran Games and Conference"
     canonical = DOMAIN + "/" + ("" if page == "index.html" else page.replace("index.html", ""))
     desc = desc or "The Veteran Games and Conference brought together wounded, sick and injured UK veterans and their families with their overseas counterparts for sport, conversation and culture."
-    notice_html = (
-        f'<div class="notice"><div class="wrap">This website is an archive of the Veteran Games and Conference programme. '
-        f'For enquiries, please <a href="{R("contact.html")}">contact the team</a>.</div></div>'
-        if notice else ""
-    )
     return f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -325,7 +320,6 @@ def layout(page, title, body, desc="", current=None, notice=True):
   </div>
   <div class="rule" role="presentation"></div>
 </header>
-{notice_html}
 <main id="main">
 {body}
 </main>
@@ -832,7 +826,7 @@ def build_members():
   <script src="https://cdn.militaryapp.org/embed-scripts/embed-app.js"></script>
 </div>
 """
-    write(p, layout(p, "Members’ web app", body, current="app.html", notice=False,
+    write(p, layout(p, "Members’ web app", body, current="app.html",
                     desc="Sign in to the Veteran Games members' web app."))
 
 
